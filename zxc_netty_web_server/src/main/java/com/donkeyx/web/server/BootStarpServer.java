@@ -1,10 +1,11 @@
 package com.donkeyx.web.server;
 
-import com.donkeyx.web.Service.ResourcesService;
-import com.donkeyx.web.handler.ServerHandler;
+import com.donkeyx.web.service.ResourcesService;
 import com.donkeyx.web.initializer.HttpServerInitializer;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
@@ -23,7 +24,9 @@ public class BootStarpServer {
             b.group(bossGroup, workerGroup)
                     .channel(NioServerSocketChannel.class)
                     .handler(new LoggingHandler(LogLevel.INFO))
-                    .childHandler(new HttpServerInitializer());
+                    .childHandler(new HttpServerInitializer())
+                    .option(ChannelOption.SO_BACKLOG, 128)
+                    .childOption(ChannelOption.SO_KEEPALIVE, true);
 
             Channel ch = b.bind(port).sync().channel();
             System.out.println("服务成功启动,请打开http://127.0.0.1:"+port);

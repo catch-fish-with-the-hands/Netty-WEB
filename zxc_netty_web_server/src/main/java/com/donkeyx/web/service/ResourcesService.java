@@ -1,9 +1,8 @@
-package com.donkeyx.web.Service;
+package com.donkeyx.web.service;
 
 import com.donkeyx.web.util.Constant;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.Enumeration;
 import java.util.HashMap;
