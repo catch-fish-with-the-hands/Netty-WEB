@@ -16,7 +16,7 @@ public class MyHttpServerHandler extends SimpleChannelInboundHandler<HttpObject>
         //此处HttpObject默认是HttpRequest
         if (httpObject instanceof HttpRequest) {
             //解析请求
-            HttpRequest request = (HttpRequest) httpObject;
+            DefaultHttpRequest request = (DefaultHttpRequest) httpObject;
             System.out.println(request.uri());
             ByteBuf byteBuf = Unpooled.copiedBuffer("hello world netty http", CharsetUtil.UTF_8);
 
