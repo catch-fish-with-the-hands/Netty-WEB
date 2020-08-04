@@ -14,6 +14,7 @@ public class MyStaticWebInitializer extends ChannelInitializer {
         ch.pipeline().addLast("http-decoder", new HttpRequestDecoder());
         ch.pipeline().addLast("http-aggregator", new HttpObjectAggregator(65536));
         ch.pipeline().addLast("http-encoder", new HttpResponseEncoder());
+        // 文件分块
         ch.pipeline().addLast("http-chunked", new ChunkedWriteHandler());
 
         // 自定义文件处理器

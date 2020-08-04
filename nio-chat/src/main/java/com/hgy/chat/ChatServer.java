@@ -21,10 +21,12 @@ public class ChatServer {
      */
     public ChatServer() {
         try {
+            // 创建Selector以及ServerSocketChannel
             selector = Selector.open();
             serverSocketChannel = serverSocketChannel.open();
             serverSocketChannel.configureBlocking(false);
             serverSocketChannel.socket().bind(new InetSocketAddress(8888));
+            //将服务端监听通道注册到Selector中
             serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
         } catch (Exception e) {
             e.printStackTrace();
@@ -40,17 +42,18 @@ public class ChatServer {
                 if (selector.select(1000) == 0) {
                     continue;
                 }
-                //获得所有的key
+                //获得所有有事件的key
                 Set<SelectionKey> selectionKeys = selector.selectedKeys();
                 Iterator<SelectionKey> iterator = selectionKeys.iterator();
                 while (iterator.hasNext()) {
                     SelectionKey key = iterator.next();
+                    //如果当前key是处理链接类型
                     if (key.isAcceptable()) {
                         SocketChannel socketChannel = serverSocketChannel.accept();
                         socketChannel.configureBlocking(false);
                         socketChannel.register(selector, SelectionKey.OP_READ);
                     }
-
+                    // 当前链接是读数据类型
                     if (key.isReadable()) {
                         readData(key);
                     }
@@ -62,6 +65,10 @@ public class ChatServer {
         }
     }
 
+    /**
+     * 读取数据并群发给所有的用户
+     * @param key
+     */
     private void readData(SelectionKey key) {
         try {
             if (key.isReadable()) {
@@ -77,12 +84,18 @@ public class ChatServer {
         }
     }
 
+    /**
+     * 群发给所有的用户
+     * @param msg 需要发送的消息
+     */
     private void sendData2All(String msg) {
         try {
+            // 当前在selector上注册的所有key就是所有用户
             Set<SelectionKey> keys = selector.keys();
             for (SelectionKey key : keys) {
+                // 获取每个用户的通道
                 SelectableChannel channel = key.channel();
-
+                // 实现数据发送
                 if (channel instanceof SocketChannel) {
                     System.out.println(":::" + msg);
                     ByteBuffer byteBuffer = ByteBuffer.wrap(msg.getBytes());

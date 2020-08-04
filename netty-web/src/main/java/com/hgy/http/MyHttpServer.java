@@ -19,11 +19,15 @@ public class MyHttpServer {
         this(8888);
     }
 
+    /**
+     * 启动服务监听
+     */
     public void start() {
         NioEventLoopGroup boss = new NioEventLoopGroup(1);
         NioEventLoopGroup work = new NioEventLoopGroup();
 
         try {
+            // http网络通信的通道类型依然是NioServerSocketChannel
             serverBootstrap.group(boss, work)
                     .channel(NioServerSocketChannel.class)
                     .localAddress(port)

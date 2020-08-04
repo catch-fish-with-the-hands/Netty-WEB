@@ -29,7 +29,7 @@ public class MyHttpServerHandler extends SimpleChannelInboundHandler<HttpObject>
             response.headers()
                     .set(HttpHeaderNames.CONTENT_TYPE, "text/plain")
                     .set(HttpHeaderNames.CONTENT_LENGTH, byteBuf.readableBytes());
-
+            //响应数据
             ctx.writeAndFlush(response);
         }
     }

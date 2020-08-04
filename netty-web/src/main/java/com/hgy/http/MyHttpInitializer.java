@@ -12,6 +12,5 @@ public class MyHttpInitializer extends ChannelInitializer {
         channel.pipeline().addLast(new HttpServerCodec());
         // 加入自己的处理器
         channel.pipeline().addLast(new MyHttpServerHandler());
-
     }
 }
