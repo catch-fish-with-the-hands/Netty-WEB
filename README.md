@@ -7,3 +7,5 @@
 - 完成NIO群聊
 - 完成Netty 网络通信demo
 - 完成Netty HTTP hello world服务器
+- 完成Http 文件服务器
+- 完成Netty整合WebSocket
