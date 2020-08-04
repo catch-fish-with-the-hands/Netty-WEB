@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ws</title>
+</head>
+<body>
+<form onsubmit="return false">
+
+    <textarea  id="msg" style="height: 300px; width: 300px"></textarea>
+    <input type="button" onclick="send()" value="send">
+
+</form>
+
+</body>
+<script>
+
+    var socket;
+    if (window.WebSocket) {
+        socket = new WebSocket("ws://localhost:8888/hgy");
+        socket.onmessage = function (msg) {
+            console.log(msg)
+        }
+        socket.onopen = function (ev) {
+            console.log("connected")
+        }
+    } else {
+        alert("please switch the Browser")
+    }
+
+    function send() {
+        if (socket.readyState == WebSocket.OPEN) {
+            socket.send(document.getElementById("msg").value);
+        } else {
+            alert("链接为就绪")
+        }
+    }
+
+
+
+</script>
+</html>
